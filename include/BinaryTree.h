@@ -1,14 +1,17 @@
 #ifndef TREE_H
 #define TREE_H
 
-struct node
+struct Node_t
 {
     int data;
-    node* left;
-    node* right;
+    Node_t* left;
+    Node_t* right;
 };
 
-node* CreateNode (int value);
-void Print (node* node);
+Node_t* CreateNode (int value);
+void Print (Node_t* node);
+void Insert (Node_t* node, int value);
+void DtorNode (Node_t* node);
+void CreateDot (Node_t* node);
 
 #endif
