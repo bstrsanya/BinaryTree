@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include "BinaryTree.h"
 
@@ -13,8 +14,11 @@ int main()
     Insert (node_50, 65);
     Insert (node_50, 66);
     Insert (node_50, 80);
+    Insert (node_50, 90);
+    Insert (node_50, 35);
+    Insert (node_50, 17);
+    Insert (node_50, 42);
 
-    Print (node_50);
-    CreateDot (node_50);
+    PrintDot (node_50);
     DtorNode (node_50);
 }

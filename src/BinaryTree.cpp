@@ -40,7 +40,7 @@ void DtorNode (Node_t* node)
 
 void Insert (Node_t* node, int value)
 {
-    assert (value);
+    assert (node);
     if (value < node->data)
         if (node->left != NULL)
             Insert (node->left, value);
@@ -53,21 +53,31 @@ void Insert (Node_t* node, int value)
             node->right = CreateNode (value);          
 }
 
-void CreateDot (Node_t* node)
+void CreateDot (Node_t* node, FILE* file_dot)
 {
     if (!node) return;
 
-    printf ("node%p [shape=Mrecord; style = filled; color = pink; label = \"{data = %d}\"];\n", node, node->data);
+    fprintf (file_dot, "node%p [shape=record; style = filled; fillcolor = \"#ffe4c4\"; color = \"#800000\"; label = \"{data = %d | address = %p | { <f0> left = %p | <f1> right = %p}}\"];\n", node, node->data, node, node->left, node->right);
 
     if (node->left) 
     {
-        CreateDot (node->left);
-        printf ("node%p -> node%p [color = red, style = bold, arrowhead = vee];\n", node, node->left);
+        fprintf (file_dot, "node%p: <f0> -> node%p [color = red, style = bold, arrowhead = vee];\n", node, node->left);
+        CreateDot (node->left, file_dot);
     }
     if (node->right) 
     {
-        CreateDot (node->right);
-        printf ("node%p -> node%p [color = red, style = bold, arrowhead = vee];\n", node, node->right);
+        fprintf (file_dot, "node%p: <f1> -> node%p [color = red, style = bold, arrowhead = vee];\n", node, node->right);
+        CreateDot (node->right, file_dot);
     }
+}
 
+void PrintDot (Node_t* node)
+{
+    FILE* file_dot = fopen ("./aaa.dot", "w");
+    assert (file_dot != NULL);
+    fprintf (file_dot, "digraph{\nsplines=\"ortho\";\n");
+    CreateDot (node, file_dot);
+    fprintf (file_dot, "}");
+    fclose (file_dot);
+    system ("dot ./aaa.dot -Tpng -o ./aaa.png");
 }
